@@ -49,6 +49,8 @@ build/Release
 data
 node_modules
 jspm_packages
+.env
+env
 
 # Optional npm cache directory
 .npm
