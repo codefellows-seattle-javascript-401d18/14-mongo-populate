@@ -24,21 +24,19 @@ describe('Testing toy routes', function() {
             .then(res => {
               this.mockChild = res.body;
               this.resPost = res;
-              done();
+              return superagent.post(':4000/api/toy')
+                .type('application/json')
+                .send({
+                  name: 'barney',
+                  desc: 'purple dino',
+                  child: `${this.mockChild._id}`,
+                })
+                .then(res => {
+                  this.mockToy = res.body;
+                  this.resPost = res;
+                  done();
+                });
             });
-          beforeAll(done => {
-            return superagent.post(':4000/api/toy')
-              .type('application/json')
-              .send({
-                name: 'barney',
-                desc: 'purple dino',
-              })
-              .then(res => {
-                this.mockToy = res.body;
-                this.resPost = res;
-                done();
-              });
-          });
         });
         describe('New Toy Creation Validation', () =>{
           test('should create and return a new toy, given a valid request', () => {
@@ -150,7 +148,7 @@ describe('Testing toy routes', function() {
         superagent.put(`localhost:4000/api/toy/${this.mockToy._id}`)
           .type('application/json')
           .end((err, res) => {
-            expect(res.status).toEqual(200);
+            expect(res.status).toEqual(204);
             done();
           });
       });
