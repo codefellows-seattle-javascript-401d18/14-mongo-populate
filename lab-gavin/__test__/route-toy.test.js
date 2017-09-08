@@ -97,6 +97,21 @@ describe('Testing toy routes', function() {
             done();
           });
       });
+      test('should return 409 on dupe', done => {
+        superagent.post(':4000/api/child')
+          .type('application/json')
+          .send({
+            name: 'Alaric',
+          })
+          .then(() => {
+            superagent.post(':4000/api/child')
+              .type('application/json')
+              .send({
+                name: 'Alaric',
+              });
+            done();
+          });
+      });
     });
   });
   describe('GET requests', () => {
@@ -162,7 +177,7 @@ describe('Testing toy routes', function() {
             done();
           });
       });
-      test('should return 404 with bad ID', done => {
+      test('should return 500 with bad ID', done => {
         superagent.put(`localhost:4000/api/toy/39750395`)
           .type('application/json')
           .end((err, res) => {
