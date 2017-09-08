@@ -1,9 +1,12 @@
 'use strict';
 
-const Promise = require('bluebird');
+
+require('dotenv').config({ path: `${__dirname}/lib/.test.env`});
+
+const Toy = require('../model/toy');
 const superagent = require('supergent');
-const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
-require('../../lib/server').listen(3000);
+require('../lib/server').listen(process.env.PORT);
+
 require('jest');
 
 describe('testing toy routes', function() {
@@ -83,10 +86,37 @@ describe('testing toy routes', function() {
         done();
       });
     });
-    xdescribe('PUT requests', () => {
-      test('should have a valid PUT request', done => {
+    describe('PUT requests', function() {
+      beforeAll(() => {
+        return superagent.post('4000/api/toy')
+          .send({ name: 'Cthulu', desc: 'Orwellian Dark Lord'})
+          .then(res => {
+            this.resPost = res;
+          });
+      });
+      afterAll(() => {
+        return Promise.all ([
+          Toy.remove()
+        ]);
+      });
+      describe('valid Requests', () => {
+        test('should return a status of 204 No Content', () => {
+          return superagent.put(`:4000/api/toy/${this.resPost.body._id}`)
+            .send({ name: 'Cthulu', desc: 'All around nice guy' })
+            .then(res => {
+              expect(res.status).toBe(204);
+            });
+        });
+        test('should update the existing record in the DB', () => {
+          return superagent.get(`:4000/api/toy/${this.resPost.body._id}`)
+            .then(res => {
+              expect(res.body.name).toBe('Cthulu');
+              expect(res.body.desc).toBe('All around nice guy');
+            });
+        });
+      });
+      describe('Invalid Requests', () => {
 
-        done();
       });
     });
 
