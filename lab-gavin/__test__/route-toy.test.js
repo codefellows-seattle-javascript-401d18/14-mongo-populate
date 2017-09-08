@@ -124,7 +124,7 @@ describe('Testing toy routes', function() {
       });
     });
     describe('Invalid Requests', () => {
-      test('should return 500 for bad ID', done => {
+      test('should return 404 for bad ID', done => {
         superagent.get(`localhost:4000/api/toy/33533636`)
           .type('application/json')
           .end((err, res) => {
@@ -162,7 +162,7 @@ describe('Testing toy routes', function() {
             done();
           });
       });
-      test('should return 500 with bad ID', done => {
+      test('should return 404 with bad ID', done => {
         superagent.put(`localhost:4000/api/toy/39750395`)
           .type('application/json')
           .end((err, res) => {
