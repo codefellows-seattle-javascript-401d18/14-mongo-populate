@@ -1,22 +1,21 @@
-# Documentation:
+### Makes A MongoDB Server involving children and dystopian toys...
 
-# Functions
+Using a combination of Node.js, MongoDB, mongoose, superagent, Express, and several other npm packages that i will list below, i have created a Database with MongoDB.
 
-This app creates an HTTP server you can access through your terminal. It also creates a 'toy' using a Javascript constructor that gives the 'toy' a name, a description and a id. The app has a custom body parser module which incorporates promises to parse the JSON body of POST, PUT, GET and DELETE requests.
+
+
+The app will track the relationships between a child a somewhat morbid toy.
+
+
+
+
+
+
 
 # Resources
 
-The app was built using HTTPie and the npm package uuid. The app was tested using the jest testing suite.
 
 https://httpie.org/doc
 https://www.npmjs.com/package/uuid
 https://www.npmjs.com/package/jest
 http://bluebirdjs.com/docs/getting-started.html
-
-define how another dev can 'get started' with your api on their own
-
-# Installation
-
-Create a directory and clone the repository.
-
-document each of the available endpoints; including example request/response formats for each
