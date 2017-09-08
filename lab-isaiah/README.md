@@ -17,7 +17,8 @@
       2. http GET :5000/api/child
       3. http PUT :5000/api/child name=dragon
       4. http PUT :5000/api/child/59b1f960f7197324fc81b171 name=blah
-      5. http POST :5000/api/toy/59b1f960f7197324fc81b171 name='spider man' desc=hero
-      6. http DELETE :5000/api/child/59b1f960f7197324fc81b171
-      7. http GET :5000/api/child
+      5. http POST :5000/api/toy name='spider man' desc=hero child=59b1f960f7197324fc81b171
+      6. http GET :5000/api/child/59b1f960f7197324fc81b171
+      7. http DELETE :5000/api/child/59b1f960f7197324fc81b171
+      8. http GET :5000/api/child
       ```

@@ -10,15 +10,15 @@ const Toy = mongoose.Schema({
   child: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'child'},
 }, {timestamps: true});
 
-Toy.pre('save', (next) => {
+Toy.pre('save', function(next){
   debug('#pre-save Toy');
 
   // debug(`stepping through Toy constructor: ${this.child}`)
   Child.findById(this.child)
     .then(child => {
-      let toyIdSet = new Set(child.toy);
+      let toyIdSet = new Set(child.toys);
       toyIdSet.add(this._id);
-      child.toy = Array.from(toyIdSet);
+      child.toys = Array.from(toyIdSet);
       return child.save();
     })
     .then(next)
