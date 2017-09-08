@@ -11,14 +11,15 @@ module.exports = function(router) {
     debug('/api/child POST');
 
     return new Child(req.body).save()
-    .then(child => res.status(201).json(child))
-    .catch(err => errorHandler(err, req, res));
+      .then(child => res.status(201).json(child))
+      .catch(err => errorHandler(err, req, res));
   });
 
-  router.get('/api/toy/:_id', (req, res) => {
-    debug('/api/toy/:_id GET');
+  router.get('/api/child/:_id', (req, res) => {
+    debug('/api/child/:_id GET');
 
     return Child.findById(req.params._id)
+      .populate('toys')
       .then(toy => res.status(200).json(toy))
       .catch(err => errorHandler(err, req, res));
   });
@@ -40,7 +41,7 @@ module.exports = function(router) {
   });
 
   router.delete('/api/toy/:_id', (req, res) => {
-    debug('/api/toy DELETE');
+    debug('/api/toy/:_id DELETE');
 
     return Child.findByIdAndRemove(req.params._id)
       .then(() => res.sendStatus(204))

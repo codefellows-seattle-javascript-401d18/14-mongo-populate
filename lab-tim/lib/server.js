@@ -19,7 +19,7 @@ const cors = require('./cors');
 
 // routes
 require('../route/route-toy')(router);
-require('../route/route-child')(router)
+require('../route/route-child')(router);
 // require('./route/route-family')(router)
 
 // mount middleware
