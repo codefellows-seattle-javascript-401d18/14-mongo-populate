@@ -80,31 +80,31 @@ require('jest')
 describe('Testing toy routes', function() {
   describe('all requests to /api/toy', () => {
     describe('POST requests', () => {
-      describe.only('Valid Requests', () => {
-        beforeAll(done => {
-          superagent.post(':5000/api/child')
-            .type('application/json')
-            .send({
-              name: 'Nikki'
-            })
-            .then(res => {
-              this.mockChild = res.body
-              this.resPostToy = res
-              console.log(this.mockChild._id)
-              return superagent.post(':5000/api/toy')
-                .type('application/json')
-                .send({
-                  name: 'tarot deck',
-                  desc: 'very magical',
-                  child: this.mockChild._id
-                })
-                .then( res => {
-                  this.mockToy = res.body
-                  this.resPostToy = res
-                  done()
-                })
-            })
-        })
+      beforeAll(done => {
+        superagent.post(':4000/api/child')
+          .type('application/json')
+          .send({
+            name: 'Nikki'
+          })
+          .then(res => {
+            this.mockChild = res.body
+            this.resPostToy = res
+            console.log(this.mockChild._id)
+            return superagent.post(':4000/api/toy')
+              .type('application/json')
+              .send({
+                name: 'tarot deck',
+                desc: 'very magical',
+                child: this.mockChild._id
+              })
+              .then( res => {
+                this.mockToy = res.body
+                this.resPostToy = res
+                done()
+              })
+          })
+      })
+      describe('Valid Requests', () => {
         test('should create and return a new toy, given a valid request', () => {
           expect(this.mockToy).toBeInstanceOf(Object)
           expect(this.mockToy).toHaveProperty('name')
@@ -116,7 +116,7 @@ describe('Testing toy routes', function() {
           expect(this.mockToy.name).toBe('tarot deck')
         })
         test('should have a desc, given a valid request', () => {
-          expect(this.mockToy.desc).toBe('what')
+          expect(this.mockToy.desc).toBe('very magical')
         })
         test('should have an _id, given a valid request', () => {
           expect(this.mockToy._id).toMatch(/([a-f0-9]{24})/i)
@@ -126,22 +126,12 @@ describe('Testing toy routes', function() {
         })
       })
       describe('Invalid Requests', () => {
-        // TODO: error status, message, name, bad endpoint
-        beforeAll(done => {
-          superagent.post(':3000/api/toy')
-            .type('application/json')
-            .send({})
-            .catch(err => {
-              this.errPost = err
-              done()
-            })
-        })
         test('should return a status of 400 Bad Request', () => {
           expect(this.errPost.status).toBe(400)
           expect(this.errPost.message).toBe('Bad Request')
         })
         test('should return 404 on invalid endpoint', done => {
-          superagent.post(':3000/bad/endpoint')
+          superagent.post(':4000/bad/endpoint')
             .type('application/json')
             .send({})
             .catch(err => {
@@ -151,6 +141,7 @@ describe('Testing toy routes', function() {
         })
       })
     })
+
     xdescribe('GET requests', () => {
       test('should get the record from the toy dir', done => {
 
