@@ -206,7 +206,7 @@ describe('Testing toy routes', function() {
   });
 });
 
-
+// TESTING CHILD ROUTESTESTING CHILD ROUTESTESTING CHILD ROUTESTESTING CHILD ROUTES
 describe('Testing child routes', function() {
   describe('all requests to /api/child', () => {
     describe('POST requests', () => {
@@ -232,9 +232,6 @@ describe('Testing child routes', function() {
         test('should have a name, given a valid request', () => {
           expect(this.mockChild.name).toBe('Alaric');
         });
-        // test('should have a desc, given a valid request', () => {
-        //   expect(this.mockChild.toys).toBe();
-        // });
         test('should have an _id, given a valid request', () => {
           expect(this.mockChild._id).not.toBeNull();
         });

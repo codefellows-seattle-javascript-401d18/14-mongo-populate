@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 ## Project Description
-Using node.js, HTTP, superagent, Express, MongoDB, and Mongoose I have created a Server that responds to different GET, POST, PUT, and DELETE responses from a developer position. The requests can interact with a local Database managed with MongoDB. This project represents what is possible with a few simple tools. We can create a Database from POST requests with the information provided by the dev. Then we can interact with the database with GET, PUT, and DELETE.
+Using node.js, HTTP, superagent, Express, MongoDB, and Mongoose I have created a Server that responds to different GET, POST, PUT, and DELETE responses from a developer position. The requests can interact with a local Database managed with MongoDB. We can create relationships between two schema's. In this example I use toys and children. A toy MUST belong to a child, but a child can NOT have a toy. This project represents what is possible with a few simple tools. We can create a Database from POST requests with the information provided by the dev. Then we can interact with the database with GET, PUT, and DELETE.
 
 ## Table of Contents
 + [Installation](#installation)
@@ -40,12 +40,41 @@ Using node.js, HTTP, superagent, Express, MongoDB, and Mongoose I have created a
 + Now from the the second terminal window you can make a series of GET, POST, PUT, and DELETE requests.
 
   ## These are the only variations of this API and endpoints possible.
+  ## You must Post a child first in order to be able to create toys. To create a Toy you MUST have the child ID.
 
-  ### POST requests
-  + Example ==>`http POST localhost:3000/api/toy name=name desc=desc`
-  + Example w/ Mock info ==> `http POST localhost:3000/api/toy name=PowerRanger desc='Super Awesome Red Ranger'`
+  ### CHILD POST requests
+  + Example ==>`http POST localhost:3000/api/child name=name`
+  + Example w/ Mock info ==> `http POST localhost:3000/api/child name=Gavin`
 
-  ### GET requests
+  ### CHILD GET requests
+  + Example.==>`http GET localhost:3000/api/child/idNumber`
+  + Example w/ Mock ID ==> `http GET localhost:3000/api/child/ee30e86a-36ee-4843-b47e-a252531bac41`
+
+
+  + *Alternatively to get all documents in collection*
+
+  + `http GET localhost:3000/api/child`
+
+
+  ### CHILD PUT requests
+  + Example ==>`http PUT localhost:3000/api/child/someid name=newName'`
+  + Example w/ Mock ID ==> `http PUT localhost:3000/api/child/96d6514b-b1da-4a11-a8a7-b044436a23ab name=PowerRangerGreen`
+
+  ### CHILD DELETE requests
+  + Example`http DELETE localhost:3000/api/child/some Id` will return 404.
+  + Example w/ Mock ID ==> `http DELETE localhost:3000/api/child/ee30e86a-36ee-4843-b47e-a252531bac41`.
+
+  ### Examples of bad endpoints
+  `http GET localhost:3000/api/child/PowerRanger`
+
+  `http GET localhost:3000/child/api/PowerRanger`
+
+  `http GET localhost:3000/api/child/`
+  ### TOY POST requests
+  + Example ==>`http POST localhost:3000/api/toy name=name desc=desc child:childIDToyBelongsToo`
+  + Example w/ Mock info ==> `http POST localhost:3000/api/toy name=PowerRanger desc='Super Awesome Red Ranger' child=59b1b943e85e6e58ac7eace9`
+
+  ### TOY GET requests
   + Example.==>`http GET localhost:3000/api/toy/idNumber`
   + Example w/ Mock ID ==> `http GET localhost:3000/api/toy/ee30e86a-36ee-4843-b47e-a252531bac41`
 
@@ -54,11 +83,11 @@ Using node.js, HTTP, superagent, Express, MongoDB, and Mongoose I have created a
   + `http GET localhost:3000/api/toy`
 
 
-  ### PUT requests
+  ### TOY PUT requests
   + Example ==>`http PUT localhost:3000/api/toy/someid name=new name desc=new desc'`
   + Example w/ Mock ID ==> `http PUT localhost:3000/api/toy/96d6514b-b1da-4a11-a8a7-b044436a23ab name=PowerRangerGreen desc='Totally awesome Green Ranger'`
 
-  ### DELETE requests
+  ### TOY DELETE requests
   + Example`http DELETE localhost:3000/api/toy/some Id` will return 404.
   + Example w/ Mock ID ==> `http DELETE localhost:3000/api/toy/ee30e86a-36ee-4843-b47e-a252531bac41`.
 
@@ -68,6 +97,9 @@ Using node.js, HTTP, superagent, Express, MongoDB, and Mongoose I have created a
   `http GET localhost:3000/toy/api/PowerRanger`
 
   `http GET localhost:3000/api/toy/`
+
+
+
 
 + If you want to interact with your database through mongo and mongoose...
   + In your fourth terminal window you can use the following commands.
