@@ -17,10 +17,17 @@ The app will track the relationships between a gothic child and their somewhat m
 # Resources
 
 https://nodejs.org/en/
+
 http://mongoosejs.com/
+
 https://httpie.org/doc
+
 https://www.npmjs.com/package/express
+
 https://www.npmjs.com/package/cors
+
 https://www.npmjs.com/package/dotenv
+
 https://www.npmjs.com/package/uuid
+
 http://bluebirdjs.com/docs/getting-started.html
