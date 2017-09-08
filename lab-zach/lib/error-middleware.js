@@ -1,37 +1,21 @@
 'use strict';
 
 
-//I believe this will help us create error objects via Node.
-const createError = require('http-errors');
+//Debug to see what and where things might go wrong.
 const debug = require('debug')('http:error-middleware');
 
 //exporting...
 // error first, then request and response. next to move to next thing in stack
-module.exports = function (err, req, res, next) {
-
-  if (err.status) {
-    //this will kick off if the error is user related
-    debug('user error');
-
-    //this will send back the status number and info
-    res.status(err.status).send(err.name);
-    next();
-
-    //I'm still not sure why we have to explicitly return in the if..
-    return;
+module.exports = function (err, req, res) {
+  //to print if there is an error
+  debug(`error-handler: ${err.message}`);
+  // short hand variable for the err msg
+  let msg = err.message.toLowerCase();
+  //if error is true, some cases to go through. I! AM! THE ONE! To set the right error message for includes.
+  switch(true) {
+  case msg.includes('validation failed'): return res.status(400).send(`${err.name} : ${err.message}`);
+  case msg.includes('duplicate key'): return res.status(409).send(`${err.name} : ${err.message}`);
+  case msg.includes('objectid failed'): return res.status(404).send(`${err.name} : ${err.message}`);
+  default : return res.status(500).send(`${err.name} : ${err.message}`);
   }
-
-  //this will kick off if it's on the server side
-  debug('server error');
-
-  //this will create the error object 500 explicitly
-  err = createError(500, err.message);
-
-  //this will return the the response of the created error object
-  res.status(err.status).send(err.name);
-
-  //next pushing us along..
-  next();
-
-  // for some reason this is implicit return...
 };
