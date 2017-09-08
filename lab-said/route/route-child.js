@@ -19,6 +19,7 @@ module.exports = function(router) {
     debug('/api/child/:_id GET');
 
     return Child.findById(req.params._id)
+      .populate('toys')
       .then(child => res.json(child))
       .catch(err => errorHandler(err, req, res));
   });
