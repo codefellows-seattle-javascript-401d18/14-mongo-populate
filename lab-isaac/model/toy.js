@@ -33,8 +33,8 @@ Toy.post('remove', function(doc, next) {
       child.toys = child.toys.filter(toy => toy._id === doc._id);
       return child.save();
     })
-      .then(next)
-      .catch(next);
+    .then(next)
+    .catch(next);
 });
 
 module.exports = mongoose.model('toy', Toy);
