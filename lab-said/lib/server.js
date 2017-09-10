@@ -25,7 +25,7 @@ app.use(router);
 
 app.all('/*', (req, res) => res.sendStatus(404));
 
-// NOTE: This is a nesessary separation of concerns for running our tests.
+// NOTE: This is a nesessary separation of concerns for running my tests.
 // Within each test file we can explicitely start and stop a server instance
 const server = module.exports = {};
 server.isOn = false;
@@ -54,4 +54,4 @@ server.stop = () => {
   });
 };
 
-module.exports = app;
+//module.exports = app;
