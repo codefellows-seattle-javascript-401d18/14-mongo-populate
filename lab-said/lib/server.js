@@ -25,4 +25,33 @@ app.use(router);
 
 app.all('/*', (req, res) => res.sendStatus(404));
 
+// NOTE: This is a nesessary separation of concerns for running our tests.
+// Within each test file we can explicitely start and stop a server instance
+const server = module.exports = {};
+server.isOn = false;
+server.start = () => {
+  return new Promise((resolve, reject) => {
+    if(!server || !server.isOn) {
+      server.http = app.listen(process.env.PORT, () => {
+        server.isOn = true;
+        resolve();
+      });
+      return;
+    }
+    reject(new Error('server allread running'));
+  });
+};
+
+server.stop = () => {
+  return new Promise((resolve, reject) => {
+    if(server.http && server.isOn) {
+      return server.http.close(() => {
+        server.isOn = false;
+        resolve();
+      });
+    }
+    reject(new Error('ther server is not running'));
+  });
+};
+
 module.exports = app;
