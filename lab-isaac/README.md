@@ -6,7 +6,11 @@ This lab assignment is a Nodejs backend API app.  It takes http POST, GET, PUT, 
 
 ## Installation
 
-To install this app, you need to have Nodejs installed on your system.  MongoDB needs to also be installed and running on you system.  Clone this repo and navigate to ```14-mongo-populate/lab-isaac``` and then ```npm install``` will install all necessary packages via npm.
+To install this app, you need to have Nodejs installed on your system.  MongoDB needs to also be installed and running on you system.  Clone this repo and navigate to ```14-mongo-populate/lab-isaac``` and then ```npm install``` will install all necessary packages via npm. You must create a .env file in the lab-isaac folder setting the following variables:
+```
+MONGODB_URI= 'mongodb://localhost/*yourDBname*'
+PORT = **SPECIFY A PORT**
+```
 
 ## Run Application
 
