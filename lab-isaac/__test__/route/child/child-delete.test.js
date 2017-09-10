@@ -3,7 +3,7 @@
 const childMock = require('../../mocks').child;
 const server = require('../../../lib/server');
 const superagent = require('superagent');
-const faker = require('faker');
+// const faker = require('faker');
 
 describe('Testing Child Routes', function () {
   beforeAll(server.start);
