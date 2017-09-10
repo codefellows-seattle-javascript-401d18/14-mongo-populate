@@ -17,7 +17,7 @@ module.exports = function(router) {
   router.get('/api/toy/:_id', (req, res) => {
     debug('/api/toy/:_id GET');
 
-    return Toy.findById(req.params._id)
+    return Toy.findById(req.params._id).populate({ path: 'child' })
       .then(toy => res.json(toy))
       .catch(err => errorHandler(err, req, res));
   });

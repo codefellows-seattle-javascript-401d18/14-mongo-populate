@@ -1,7 +1,6 @@
 'use strict';
 
 const debug = require('debug')('http:server');
-require('dotenv').config();
 
 // express setup
 const express = require('express');
@@ -16,7 +15,6 @@ mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 // routes (middleware)
 require('../route/route-toy')(router);
 require('../route/route-child')(router);
-// require('../route/route-family')(router);
 
 // mount middleware
 app.use(require('body-parser').json());
@@ -25,4 +23,31 @@ app.use(router);
 
 app.all('/*', (req, res) => res.sendStatus(404));
 
-module.exports = app;
+// NOTE: This is a nesessary separation of concerns for running our tests.
+// Within each test file we can explicitely start and stop a server instance
+const server = module.exports = {};
+server.isOn = false;
+server.start = () => {
+  return new Promise((resolve, reject) => {
+    if(!server || !server.isOn) {
+      server.http = app.listen(process.env.PORT, () => {
+        server.isOn = true;
+        resolve();
+      });
+      return;
+    }
+    reject(new Error('server already running'));
+  });
+};
+
+server.stop = () => {
+  return new Promise((resolve, reject) => {
+    if(server.http && server.isOn) {
+      return server.http.close( () => {
+        server.isOn = false;
+        resolve();
+      });
+    }
+    reject(new Error('the server is not running'));
+  });
+};
