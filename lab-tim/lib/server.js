@@ -1,7 +1,8 @@
 'use strict';
 
 const debug = require('debug')('http:server');
-require('dotenv').config();
+const PORT = process.env.PORT || 3000;
+//require('dotenv').config();
 
 // express setup
 const express = require('express');
@@ -30,4 +31,31 @@ app.use(router);
 
 app.all('/*', (req, res) => res.sendStatus(404));
 
-module.exports = app;
+//module.exports = app;
+
+const server = module.exports = {};
+server.isOn = false;
+server.start = () => {
+  return new Promise((resolve, reject) => {
+    if(!server || !server.isOn) {
+      server.http = app.listen(PORT, () => {
+        server.isOn = true;
+        resolve();
+      });
+      return;
+    }
+    reject(new Error('server allread running'));
+  });
+};
+
+server.stop = () => {
+  return new Promise((resolve, reject) => {
+    if(server.http && server.isOn) {
+      return server.http.close(() => {
+        server.isOn = false;
+        resolve();
+      });
+    }
+    reject(new Error('ther server is not running'));
+  });
+};

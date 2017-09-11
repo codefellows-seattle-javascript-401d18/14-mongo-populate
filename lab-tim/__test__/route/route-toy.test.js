@@ -1,22 +1,24 @@
 'use strict';
 
-//const Promise = require('bluebird');
 const superagent = require('superagent');
-//const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
-const PORT = process.env.PORT || 3000;
-require('../../lib/server').listen(PORT);
+//const PORT = process.env.PORT || 3000;
+const server = require('../../lib/server');
 require('jest');
+
 
 describe('Testing toy routes', function() {
   describe('all requests to /api/toy', () => {
     describe('POST requests', () => {
       describe('Valid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.post('localhost:3000/api/toy')
             .type('application/json')
             .send({
               name: 'slinky',
-              desc: 'red plastic'
+              desc: 'red plastic',
+              child: '59b5dd80402a6a04bab12671'
             })
             .then(res => {
               this.mockToy = res.body;
@@ -41,6 +43,8 @@ describe('Testing toy routes', function() {
       });
 
       describe('Invalid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.post('localhost:3000/api/toy')
             .type('application/json')
@@ -51,10 +55,8 @@ describe('Testing toy routes', function() {
             });
         });
         test('should return a status of 400 Bad Request', () => {
-          // expect(this.errPost.status).toBe(400);
-          // expect(this.errPost.message).toBe('Bad Request');
-          expect(this.errPost.status).toBe(500);
-          expect(this.errPost.message).toBe('Internal Server Error');
+          expect(this.errPost.status).toBe(400);
+          expect(this.errPost.message).toBe('Bad Request');
         });
         test('should return 404 on invalid endpoint', done => {
           superagent.post('localhost:3000/bad/endpoint')
@@ -70,6 +72,8 @@ describe('Testing toy routes', function() {
 
     describe('GET requests', () => {
       describe('Valid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.get(`localhost:3000/api/toy/${this.mockToy._id}`)
             .then(res => {
@@ -95,6 +99,8 @@ describe('Testing toy routes', function() {
       });
 
       describe('Invalid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.get(`localhost:3000/api/toy/${this.mockToy._id}badId`)
             .catch(err => {
@@ -103,10 +109,8 @@ describe('Testing toy routes', function() {
             });
         });
         test('should return a status of 400 Bad Request', () => {
-          // expect(this.errGet.status).toBe(400);
-          // expect(this.errGet.message).toBe('Bad Request');
-          expect(this.errGet.status).toBe(500);
-          expect(this.errGet.message).toBe('Internal Server Error');
+          expect(this.errGet.status).toBe(404);
+          expect(this.errGet.message).toBe('Not Found');
         });
         test('should return 404 on invalid endpoint', done => {
           superagent.get('localhost:3000/bad/endpoint')
@@ -120,16 +124,19 @@ describe('Testing toy routes', function() {
 
     describe('PUT requests', () => {
       describe('Valid Requests', () => {
-        beforeAll(done => {
+        beforeAll(server.start);
+        afterAll(server.stop);
+        beforeAll(() => {
           superagent.put(`localhost:3000/api/toy/${this.mockToy._id}`)
             .type('application/json')
             .send({
               name: 'slinky',
-              desc: 'blue plastic'
+              desc: 'blue plastic',
+              child: '59b5dd80402a6a04bab12671'
             })
             .then(res => {
               this.resPut = res;
-              done();
+              //done();
             });
         });
         test('should return a 204 NO CONTENT, given a valid request', () => {
@@ -138,20 +145,20 @@ describe('Testing toy routes', function() {
       });
 
       describe('Invalid Requests', () => {
-        beforeAll(() => {
+        beforeAll(server.start);
+        afterAll(server.stop);
+        beforeAll(done => {
           return superagent.put(`localhost:3000/api/toy/${this.mockToy._id}`)
             .type('application/json')
             .send({})
             .catch(err => {
               this.errPut = err;
-              //done();
+              done();
             });
         });
         test('should return a status of 400 Bad Request', () => {
-          // expect(this.errPost.status).toBe(400);
-          // expect(this.errPost.message).toBe('Bad Request');
-          expect(this.errPut.status).toBe(500);
-          expect(this.errPut.message).toBe('Internal Server Error');
+          expect(this.errPut.status).toBe(400);
+          expect(this.errPut.message).toBe('Bad Request');
         });
         test('should return 404 on invalid endpoint', done => {
           superagent.put('localhost:3000/bad/endpoint')
@@ -167,6 +174,8 @@ describe('Testing toy routes', function() {
 
     describe('DELETE requests', () => {
       describe('Valid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.delete(`localhost:3000/api/toy/${this.mockToy._id}`)
             .then(res => {
@@ -180,6 +189,8 @@ describe('Testing toy routes', function() {
       });
 
       describe('Invalid Requests', () => {
+        beforeAll(server.start);
+        afterAll(server.stop);
         beforeAll(done => {
           superagent.delete(`localhost:3000/api/toy/${this.mockToy._id}badId`)
             .catch(err => {
@@ -188,10 +199,8 @@ describe('Testing toy routes', function() {
             });
         });
         test('should return a status of 400 Bad Request', () => {
-          // expect(this.errPost.status).toBe(400);
-          // expect(this.errPost.message).toBe('Bad Request');
-          expect(this.errDelete.status).toBe(500);
-          expect(this.errDelete.message).toBe('Internal Server Error');
+          expect(this.errDelete.status).toBe(400);
+          expect(this.errDelete.message).toBe('Bad Request');
         });
         test('should return 404 on invalid endpoint', done => {
           superagent.delete('localhost:3000/bad/endpoint')

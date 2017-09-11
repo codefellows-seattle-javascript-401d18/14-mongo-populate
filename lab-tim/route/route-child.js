@@ -19,7 +19,7 @@ module.exports = function(router) {
     debug('/api/child/:_id GET');
 
     return Child.findById(req.params._id)
-      //.populate('toys')
+      .populate('toys')
       .then(child => res.status(200).json(child))
       .catch(err => errorHandler(err, req, res));
   });
@@ -28,7 +28,6 @@ module.exports = function(router) {
     debug('/api/child GET all');
 
     return Child.find()
-      .populate('toys')
       .then(children => res.json(children.map(child => child._id)))
       .catch(err => errorHandler(err, req, res));
   });
