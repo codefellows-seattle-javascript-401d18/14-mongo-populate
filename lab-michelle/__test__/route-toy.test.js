@@ -2,7 +2,7 @@
 'use strict';
 
 const superagent = require('superagent');
-const server = require('../../server');
+const server = require('../lib/server');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 require('jest');
