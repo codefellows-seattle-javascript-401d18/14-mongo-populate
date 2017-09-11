@@ -2,6 +2,7 @@
 
 const debug = require('debug')('http:error-handler');
 
+/* istanbul ignore next */
 module.exports = function(err, req, res) {
   debug(`#error-handler: ${err.message}`);
 
