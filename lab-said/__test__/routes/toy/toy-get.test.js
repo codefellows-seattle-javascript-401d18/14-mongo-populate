@@ -4,7 +4,7 @@ const toyMock = require('../../lib/mocks').toy;
 const childMock = require('../../lib/mocks').child;
 const server = require('../../../lib/server');
 const superagent = require('superagent');
-const faker = require('faker');
+//const faker = require('faker');
 
 describe('Testing Toy Routes', function () {
   beforeAll(server.start);

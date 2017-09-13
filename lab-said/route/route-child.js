@@ -1,8 +1,8 @@
 'use strict';
 
-const debug = require('debug')('http:route-child');
-const errorHandler = require('../lib/error-handler');
 const Child = require('../model/child');
+const errorHandler = require('../lib/error-handler');
+const debug = require('debug')('http:route-child');
 
 module.exports = function(router) {
   debug('#route-child');
@@ -19,7 +19,6 @@ module.exports = function(router) {
     debug('/api/child/:_id GET');
 
     return Child.findById(req.params._id)
-      .populate('toys')
       .then(child => res.json(child))
       .catch(err => errorHandler(err, req, res));
   });

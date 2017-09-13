@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('http:server');
-require('dotenv').config();
+//require('dotenv').config();
 
 // express setup
 const express = require('express');
@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 // routes (middleware)
 require('../route/route-toy')(router);
 require('../route/route-child')(router);
-// require('./route/route-family')(router)
 
 // mount middleware
 app.use(require('body-parser').json());
@@ -53,5 +52,3 @@ server.stop = () => {
     reject(new Error('ther server is not running'));
   });
 };
-
-//module.exports = app;
