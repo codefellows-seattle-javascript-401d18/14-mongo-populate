@@ -4,7 +4,7 @@ const toyMock = require('../../lib/mocks').toy;
 const childMock = require('../../lib/mocks').child;
 const server = require('../../../lib/server');
 const superagent = require('superagent');
-//const faker = require('faker');
+const faker = require('faker');
 
 describe('Testing Toy Routes', function () {
   beforeAll(server.start);
@@ -26,8 +26,9 @@ describe('Testing Toy Routes', function () {
         return superagent.get(`:4000/api/toy/${this.toy._id}`)
           .then(res => {
             this.res = res;
+            console.log('toy', this.toy);
             expect(res.body.name).toBe(this.toy.name);
-            expect(res.body.child).toBe(this.toy.child.toString());
+            expect(res.body.child._id).toBe(this.toy.child.toString());
           });
       });
       test('should return a status of 200', () => {
