@@ -1,6 +1,5 @@
 'use strict';
 
-
 const debug = require('debug')('http:model-toy');
 const Child = require('../model/child');
 const mongoose = require('mongoose');
