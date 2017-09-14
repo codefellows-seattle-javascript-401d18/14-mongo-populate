@@ -11,12 +11,12 @@ const app = express();
 //mongoose setup
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+let mongoConnection = mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
 
 //middleware
-const bodyParser = require('body-parser').json();
-const cors = require('cors');
-const errorMiddleware = require('./error-middleware');
+// const bodyParser = require('body-parser').json();
+// const cors = require('cors');
+// const errorMiddleware = require('./error-middleware');
 
 //routes
 require('../route/route-toy')(router);
@@ -29,7 +29,7 @@ app.use(router);
 
 app.all('/*', (req, res) => res.sendStatus(404));
 
-const server = module.exports = {}
+const server = module.exports = {};
 
 server.isOn = false;
 server.start = () => {
@@ -37,6 +37,7 @@ server.start = () => {
     if(!server || !server.isOn) {
       server.http = app.listen(process.env.PORT, ()=> {
         server.isOn = true;
+        console.log('server on');
         resolve();
       });
       return;
@@ -50,11 +51,11 @@ server.stop = () => {
     if(server.http && server.isOn) {
       return server.http.close(() => {
         server.isOn = false;
+        mongoConnection.close();
+        console.log('server off');
         resolve();
       });
     }
     reject(new Error('the server is not running'));
   });
 };
-
-module.exports = app;

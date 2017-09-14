@@ -50,7 +50,7 @@ describe('Testing toy routes', function() {
           });
       });
       test('should return a 404 given a bad route', ()=> {
-        return superagent.post(`:400/api/bad/route`)
+        return superagent.post(`:4000/api/bad/route`)
           .send({name: 'woot', desc: 'woot', child: 'woot'})
           .catch(err => {
             expect(err.status).toBe(404);
