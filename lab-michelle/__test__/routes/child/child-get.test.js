@@ -34,7 +34,7 @@ describe('Testing Child Routes', function() {
     });
     describe('Invalid Requests', () => {
       test('should rturn a 404 Not Found given an invalid Id', ()=> {
-        return superagent.get(`:400/api/child/badId`)
+        return superagent.get(`:4000/api/child/badId`)
         .catch(err => {
           expect(err.status).toBe(404);
         });

@@ -6,7 +6,7 @@ const superagent = require('superagent');
 const faker = require('faker');
 
 describe('Testing toy routes', function () {
-  beforeAll(server.stop);
+  beforeAll(server.start);
   afterAll(server.stop);
   afterAll(toyMock.removeAll);
 
@@ -41,7 +41,7 @@ describe('Testing toy routes', function () {
           });
       });
       test('should return a 404 Not Found given bad route', ()=> {
-        return superagent.delete(`:400/api/bad/route`)
+        return superagent.delete(`:4000/api/bad/route`)
           .catch(err => {
             expect(err.status).toBe(404);
           });
